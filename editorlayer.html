@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+PNEPREPLOAD = 0;
+
+function PNEloadstatus(a)
+  {
+   console.log(a)
+    PNEPREPLOAD = PNEPREPLOAD + 1;
+    if (PNEPREPLOAD == 4)
+    {
+      PNETOOLS.PreInitEditor();
+     
+      
+    }
+  }
+ </script>
+    <title>3D Drag And Drop HTML Editor Online WYSIWYG Visual Editor, Free HTML Editor Online Web Page Builder, Web Based WYSIWYG Editor</title>
+    <meta charset="UTF-8">
+    <link id="Baumans" href="http://fonts.googleapis.com/css?family=Baumans" rel="stylesheet" type="text/css">
+    <meta name="google-translate-customization" content="dfcd25dec21ef120-852677219a370d22-g8993a0d875ca6c4d-d"></meta>
+
+    <link rel="stylesheet" type="text/css" href="css/low-res.css">
+    <script type="text/javascript" src="js/pneflux.js"></script>
+    <script type="text/javascript" src="js/pneconfig.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://freewebsitepagemaker.com/b4/wp-content/plugins/plugnedit/css/style.css"> </head>
+
+<body>
+
+    <!--Do Not Edit canvas Iframe Code other then the src and the style top position.  Canvas Iframe that holds the page being edited, load template or blank HTMl page-->
+    <iframe name="CanvasFrame" scrolling="no" id="PNECANVASiframe" onload="PNEloadstatus('Canvas')" src="blank.html" style="z-index:10;width:100%;height:10000px;position:absolute;top:0px;left:0px;background:transparent;border:0px;margin:0px;padding:0px;overflow:hidden;"> </iframe>
+     
+     <!--Editor mirror canvas where move hinges are wrapped-->
+    <div style="text-align:center;position:relative" id="MirrorCanvasContainer">
+        <div id="EditorMirrorCanvas" style="visibility:visible;z-index:2000;position:relative;top:0px;left:0px;overflow:visible;width:0px;height:0px"> </div>
+    </div>
+
+    
+      <!-- Canvas Cover. used during load or when menu box is displayed. cover the editor with a transparent div -->
+    <div id="EditorCanvasCover" style="margin:0px;padding:0px;visibility:hidden;border-bottom-color:black; border-style:single; position:absolute; background-color:white; top:0px; left:0px; width:99.9%; height:1000px; z-index:10001;opacity:.7;filter:alpha(opacity=70)"> </div>
+   
+    <!-- Grid and margins display -->
+    <div style="text-align:center;position:relative;z-index:0" id="MarginMirrorContainer">
+        <div id="MarginContainer" style="height:0px;position:relative;width:0px;top:0px;border:1px;z-index:0;left:50%">
+            <div id="MarginCenter" style="visibility:visible;padding:0px;border-width:0px; border-style:dashed; position:absolute; background-color:black; top:25px; left:0px; width:1px; height:20000px; z-index:0 ;opacity:.7;filter:alpha(opacity=70)">
+            </div>
+            <div id="EditorGrids" style="background:url('assets/grid.png');background-position:center top;background-size:100px 100px;visibility:visible;border-bottom-color:black;border-width:1px; border-style:solid; position:absolute; background-color:transparent; padding:0px; margin:0px; top:25px; left:-252px; width:500px; height:20000px; z-index:0 ;opacity:.7;filter:alpha(opacity=70)"> 
+            </div>
+        </div>
+    </div>
+    
+        <!-- Rulers Left & Rulers Right -->
+    <div id="RulersLeft" style="visibility:visible;overflow:hidden;position:fixed;top:0px;left:0px;height:22px;width:50%;border:none"> <img src="assets/rulestrim.png" align="right"> 
+    </div>
+    <div id="RulersRight" style="visibility:visible;overflow:hidden;position:fixed;top:0px;right:0px;height:22px;width:50%;border:none"> <img src="assets/rulespixelsr.gif" align="left"> 
+    </div>
+    
+    <!-- Mirror Canvas Tools -->
+    <div style="visibility:hidden;text-align:center;position:relative;z-index:1000" id="MirrorCanvasTools">
+        <div id="NO1NoEditUpperMovableDrawingTools" style="height:0px;visibility:hidden;position:relative;width:0px;top:0px;border:1px;z-index:500;left:50%">
+        
+           <!-- Not current in use but may be used in future versions-->
+            <div id="CrossHairs" style="display:none;visibility:visible;top:0px;left:0px;width:100%;height:0px;position:absolute;overflow:hidden;z-index:1000">
+                <div id="rlrCrossHair" style="visibility:visible;top:0px;left:-4px;width:1px;height:1px;position:absolute;overflow:visible;z-index:50"> <img src="assets/rlcross.gif" height="3px" width="8px"> </div>
+                <div id="rllCrossHair" style="visibility:visible;top:0px;left:-4px;width:1px;height:1px;position:absolute;overflow:visible;z-index:50"> <img src="assets/rlcross.gif" height="3px" width="8px"> </div>
+                <div id="uduCrossHair" style="visibility:visible;top:0px;left:0px;width:1px;height:1px;position:absolute;overflow:visible;z-index:50"> <img src="assets/udcross.gif" height='8px' width="3px"> </div>
+                <div id="uddCrossHair" style="visibility:visible;top:0px;left:0px;width:1px;height:1px;position:absolute;overflow:visible;z-index:50"> <img src="assets/udcross.gif" height='8px' width="3px"> </div>
+            </div>
+            
+            <!-- Mini toolbar that shows about layer being edited-->
+            <div id="MiniToolbar" style="visibility:visible;top:0px;left:0px;width:100%;height:0px;position:absolute;overflow:visible;z-index:2700"> 
+            <img title="Remove white space" onClick="PlugNedit.AdjustTheDiv(undefined,'cruch');PlugNedit.CleanWorkArea()" id='WhiteSpace' src="assets/picon/png/32x32/wspace.png" style="padding:1px;cursor:pointer;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px"> <img title="Use Inline Editor" onClick="PlugNedit.RenewInline( )" id='LoadEditor' src="assets/m2/32x32/settings.png" style="padding:1px;cursor:pointer;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px"> <img title="Edit Text / Select Text" onClick="AllowSelectInline = true" id='Pencil' src="assets/m2/32x32/editpage.png" style="padding:1px;cursor:pointer;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px"> <img title="Set Image To Actual Size" onClick="PlugNedit.ImageActual();PlugNedit.CleanWorkArea()" id='ImageActual' src="assets/m2/32x32/sizes.png" style="padding:1px;cursor:pointer;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px"> <img title="Quick Menu" onClick="PlugNedit.SetRightClickOption(2)" id='Menu' src="assets/m2/32x32/properties.png" style="padding:1px;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px;cursor:pointer"> <img title="Lock layer from being moved or resized" onClick="PlugNedit.LockLayer('true')" id='UnLocked' src="assets/picon/png/32x32/unlock.png" style="padding:1px;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px;cursor:pointer"> <img title="Unlock layer, allows for resize and moving." onClick="PlugNedit.LockLayer('false')" id='Locked' src="assets/picon/png/32x32/lock.png" style="padding:1px;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:36px;width:36px;cursor:pointer"> <img title="Toggle constrain / unconstrained proportion" onClick="PlugNedit.Constrain()" id='Constrain' src="assets/picon/png/32x32/constrainp.png" style="padding:1px;display:none;left:100px;top:200px;z-index:8888;position:absolute;height:19px;width:19px;cursor:pointer"> 
+            </div>
+            
+             <!-- Sizing toolbar objects that show when layer is selected -->
+            <div id="SizingToolbar" style="visibility:visible;top:0px;left:0px;width:100%;height:0px;position:absolute;overflow:visible;z-index:2700"> 
+            <img title="Resize & Push Layers Below Down" onMouseDown="PNETOOLS.ToolTip(false)" onMouseOver="PNETOOLS.ToolTip('Careful! Pulling this hinge moves all items below this line.')" onMouseOut="PNETOOLS.ToolTip(false)" id='ResizeMove' src="assets/32X32/pulldown.png" style="width:32px;height:32px;padding:1px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;"> 
+            <div title="Resize" id='Resize' style="width:24px;height:24px;padding:1px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-image:url('assets/picon/png/32x32/rsize.png');"> </div>
+            </div>
+            
+            <!-- Sizing toolbar objects that show when layer is selected -->
+            <div id="GuidelinesContainer" style="visibility:visible;top:0px;left:0px;width:100%;height:0px;position:absolute;overflow:visible;z-index:2700"> 
+            <div id="GuidesTop" style="width:1.1px;height:1px;padding:0px;margin:0px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-color:blue"> </div>
+            <div id="GuidesBottom" style="width:1px;height:1px;padding:0px;margin:0px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-color:blue"> </div>
+            <div id="GuidesRight" style="width:1px;height:20000px;padding:0px;margin:0px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-color:blue"> </div>
+            <div id="GuidesLeft" style="width:1px;height:20000px;padding:0px;margin:0px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-color:blue"> </div>
+            <div id="GuidesCenterV" style="width:1px;height:20000px;padding:0px;margin:0px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-color:blue"> </div>
+            <div id="GuidesCenterH" style="width:1px;height:1px;padding:0px;margin:0px;border:none;display:none;left:0px;top:0px;z-index:8888;position:absolute;background-color:blue"> </div>
+            </div>
+            
+       
+        
+        </div>
+    </div>
+    
+        <!-- Pull guides container / Not currently in use. -->
+        <div id="GuidesContainer" style="display:none;visibility:visible;top:0px;left:0px;width:100%;height:0px;position:absolute;overflow:visible;z-index:500">
+            <div onMouseDown="PlugNedit.SetGuidesDiv('Vertical')" onMouseOver="javascript:document.body.style.cursor='move'" onMouseOut="javascript:document.body.style.cursor='auto'" id="GuidVerticalNoEdit" style="height:20000px;width:2px;border:none;background-image:url('guides.jpg');background-repeat:repeat-y repeat-x;position:absolute;top:1px;left:100px;visibility:visible"></div>
+            <div onMouseDown="PlugNedit.SetGuidesDiv('Horizontal')" onMouseOver="javascript: document.body.style.cursor='move'" onMouseOut="javascript:document.body.style.cursor='auto'" id="GuidHorizontalNoEdit" style="height:2px;width:100%;border:none;background-image:url('guides2.jpg');background-repeat:repeat-y repeat-x;position:absolute;top:22px;left:0px;visibility:visible"></div>
+        </div>
+
+    
+    <!-- Chords Container, displays the objects chords in pixels -->
+    <div id="ChordsContainer" class="transparentChords" style="position:fixed;bottom:0px;left:0px;width:100%;height:20px;background-color:#f2f2f2;z-index:2000;font-size:13px;color:Black;text-align:center;padding:0px">   <span id="MouseXChord"></span> <span id="MouseYChord"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Top:
+        <input type="text" id="TopPositionChord" onKeyUp="PNETOOLS.Qupdate(this.value,'Top',2,1)" style="height:14px;width:40px;padding:0px;margin:0px;font-size:12px;font-weight:bolder" value=""> PX &nbsp;&nbsp;&nbsp;Left:
+        <input type="text" onKeyUp="PNETOOLS.Qupdate(this.value,'Left',1,1)" id="LeftPostionChord" style="height:14px;width:35px;padding:0px;margin:0px;font-size:12px;font-weight:bolder" value=""> PX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width:
+        <input type="text" onKeyUp="PNETOOLS.Qupdate(this.value,'Width',3,0)" id="WidthChord" style="height:14px;width:35px;padding:0px;margin:0px;font-size:12px;font-weight:bolder" value=""> PX &nbsp;&nbsp;&nbsp; Height:
+        <input type="text" id="HeightChord" onKeyUp="PNETOOLS.Qupdate(this.value,'Height',4,0)" style="height:14px;width:35px;padding:0px;margin:0px;font-size:12px;font-weight:bolder" value=""> PX&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; Actual Image Size: <span id="ActualImageChords">0</span> PX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Current Image Size: W:
+        <input type="text" disabled id="ImageWidthChord" style="height:14px;width:35px;padding:0px;margin:0px;font-size:12px;font-weight:bolder" value=""> H:
+        <input type="text" disabled id="ImageHeightChord" style="height:14px;width:35px;padding:0px;margin:0px;font-size:12px;font-weight:bolder" value=""> PX 
+    </div>
+   
+   
+    <!-- HTML text area where HTML is placed when finished -->
+    <div id="HTMLSubmitWindow" class="Styleddailbox TextShadow gradboxent" style="padding: 20px; display:none; position: fixed; top: 50px; left: 0px; right: 0px; width: 700px; height: 500px; z-index: 100002; opacity: 1; margin: auto;text-align:center">
+        <form name="HTMLSUBMIT" method="post" action="yourpage" enctype="multipart/form-data">
+        <textarea id='PageHTML' style='-moz-user-select:text;-ms-user-select:text;width:660px;height:460px' onclick='this.select()'></textarea>
+        </form>
+    </div>
+    
+    
+    <!-- Side bar menu contianer -->
+    <div id="MenuContainer">
+        
+
+          
+       <!-- Side bar menu buttons are placed in this container when left or right side is chosen, left side by defualt -->
+        <div id="SideBarButtons" style="padding:0px;position:absolute;top:0px;left:243px;width:35px;height:500px;border-style:none;z-index:4001"> </div>
+        
+        <!-- left side menu buttons container -->
+        <div id="LeftSideButtons" style="visibility:hidden;padding:0px;position:absolute;top:0px;left:0px;width:0px;height:0px;border-style:none;z-index:4"> 
+        <img alt="Main Menu" id="L1" onclick="PNETOOLS.SideBar('0')" onmouseover="this.style.cursor='pointer'" src="assets/maint.png" style="padding:0px;padding-top:25px;margin:0px;border:0px"> 
+        <img alt="Text Menu" id="L2" onclick="PNETOOLS.SideBar('1')" onmouseover="this.style.cursor='pointer'" src="assets/textp.png" style="padding:0px;margin:0px;border:0px"> <img alt="Picture Menu" id="L3" onclick="PNETOOLS.SideBar('5')" onmouseover="this.style.cursor='pointer'" src="assets/picturesp.png" style="padding:0px"> <img alt="Layers Menu" id="L4" onclick="PNETOOLS.SideBar('4')" onmouseover="this.style.cursor='pointer'" src="assets/layersp.png" style="padding:0px;margin:0px;border:0px"> <img alt="Options Menu" id="L5" onclick="PNETOOLS.SideBar('3')" onmouseover="this.style.cursor='pointer'" src="assets/optionsp.png" style="padding:0px;margin:0px;border:0px"> <img alt="Hide Menu" id="L6" onclick="PNETOOLS.SideBar('')" onmouseover="this.style.cursor='pointer'" src="assets/hidep.png" style="padding:0px;margin:0px;border:0px"> 
+        </div>
+        <!-- Rigth side menu buttons container -->
+        <div id="RightSideButtons" style="visibility:hidden;padding:0px;position:absolute;top:0px;left:0px;width:0px;height:0px;border-style:none;z-index:4001">
+         <img alt="Main Menu" id="R1" onclick="PNETOOLS.SideBar('0')" onmouseover="this.style.cursor='pointer'" src="assets/mainrev.png"> <img alt="Text Menu" id="R2" onclick="PNETOOLS.SideBar('1')" onmouseover="this.style.cursor='pointer'" src="assets/textrev.gif"> <img alt="Picture Menu" id="R3" onclick="PNETOOLS.SideBar('5')" onmouseover="this.style.cursor='pointer'" src="assets/picturesrev.gif"> <img alt="Layers Menu" id="R4" onclick="PNETOOLS.SideBar('4')" onmouseover="this.style.cursor='pointer'" src="assets/layersrev.gif"> <img alt="Options Menu" id="R5" onclick="PNETOOLS.SideBar('3')" onmouseover="this.style.cursor='pointer'" src="assets/optionsrev.gif"> <img alt="Hide Menu" id="R6" onclick="PNETOOLS.SideBar('')" onmouseover="this.style.cursor='pointer'" src="assets/hiderev.gif"> 
+        </div>
+        
+         <!-- Menu 0 (defualt Main Menu)-->
+        <div class="Stylemenubox" id="NoEdittool0" style="font-family:Baumans;padding:6px;text-align:left;visibility:hidden;position:absolute; background-color:white; top:0px; left:0px; width:225px; height:1850px;z-index:4000;overflow:hidden">
+            <br> <span class="RtextB"> Create Your Page Then Click "Finished!" Button.</span> <br>
+            <input class="button2" id="publish" name=" Finished !" onclick="PNETOOLS.SavePage()" style="height:50px;width:210px;font-size:23px;font-weight:bolder;border: 1px solid black" type="button" value=" Finished ! ">
+        <br> <a href="Http://plugnedit.com" target="_blank">PNE Visual Editor </a> 
+        </div>
+        
+        <!-- Menu 1 (defualt text Main Menu)-->
+        
+        <div id="NoEdittool1" class="Stylemenubox" style="font-size:11px; padding:3px;text-align:left;visibility:visible; position:absolute; background-color:white; top:0px; left:0px; width:230px; height:1250px; z-index:3000;overflow:hidden">
+          
+                <table style="width:228px;color:white;padding:0px;padding-right:2px" cellspacing="1" class="Btext2">
+                    <tr>
+                        <td colspan="2" align="center" style="padding:2px;background-color:red;color:white;font-size:12px">Start Here: Add New Web Object. </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center" style="padding:2px"> <img src="assets/m2/32x32/list.png" style="cursor:pointer;height:32px" onclick="PNETOOLS.NewHTMLLayer()" title="New Text Box"> <img src="assets/m2/32x32/frames.png" style="cursor:pointer;height:32px" onclick="PNETOOLS.EmbedHTML()" title="Insert Embed / Video / HTML"> <img src="assets/m2/32x32/gallery.png" style="cursor:pointer;height:32px" title="Image Gallery"> <img src="assets/m2/32x32/Scenario.png" style="cursor:pointer;height:32px" onclick="document.getElementById('EditableSource').disabled=false;document.getElementById('DisplayTextEntry').style.display='inline'" title="Edit HTML Box Source Code"> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="height:13px">
+                            <div id="DisplayTextEntry" style="display:none;cursor:pointer"> <span onclick="document.getElementById('EditableSource').disabled=false;">HTML Box Source.</span>
+                                <br>
+                                <form id="textinputer" name="textinputer">
+                                    <textarea class="Stext" disabled id="EditableSource" name="textarea" this.rows='5'" onfocus="this.rows='30'" onkeyup="PNETOOLS.SortText(this)"  onmouseover="PNETOOLS.SortDivText(this)" onmouseup="PNETOOLS.ONContextMenus()" rows="5" style="-moz-user-select:text;-ms-user-select: text;width:223px;max-width:223px;background-color:white;border:1px solid black;font-size:12px"></textarea>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div id='NoEdittool3-Textstyle' class="Bonding">
+                    <div id="NoEdittool3-5embed" class="Gradinlinemenu" style="font-family: Arial, Arial, Helvetica, sans-serif; font-size: 16px; border: 1px none rgb(0, 0, 0); padding: 0px; padding-top:5px; border-spacing: 0px; width: 100%; text-align: center; margin: 0px auto; overflow: hidden; word-wrap: break-word; letter-spacing: normal; line-height: 90%; font-weight: normal; color: rgb(0, 0, 0); position: relative ;font-weight:bolder"> Text Styles
+                        <p style="font-size:11px;font-weight:normal">Click to select text box.
+                            <br> Then set styles.</p>
+                    </div>
+                    <br>
+                    <table style="width:228px;color:white height:368px" cellpadding="1" cellspacing="1" class="BondingT">
+                        <tr>
+                            <td valign="middle" style="font-size:12px"> Font Size: </td>
+                            <td>                <div class="styled-select">
+                                    <select class="Stext" id="fontSize" name="fontSize" onchange="PNETOOLS.StyleInlinediv('fontSize',this.value);">
+                                        <option value="6px"> 6 </option>
+                                        <option value="7px"> 7 </option>
+                                        <option value="8px"> 8 </option>
+                                        <option value="9px"> 9 </option>
+                                        <option value="10px"> 10 </option>
+                                        <option value="11px"> 11 </option>
+                                        <option value="12px"> 12 </option>
+                                        <option value="13px"> 13 </option>
+                                        <option value="14px"> 14 </option>
+                                        <option value="15px"> 15 </option>
+                                        <option selected="selected" value="16px"> 16 </option>
+                                        <option value="20px"> 20 </option>
+                                        <option value="24px"> 24 </option>
+                                        <option value="36px"> 36 </option>
+                                        <option value="48px"> 48 </option>
+                                        <option value="72px"> 72 </option>
+                                        <option value="100px"> 100 </option>
+                                        <option value="144px"> 144</option>
+                                        <option value="288px"> 288 </option>
+                                    </select>
+                                </div></td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> </td>
+                            <td> <span onclick="PNETOOLS.FontWeight(this)" style="cursor:pointer;font-size:14px;font-family:arial;font-weight:bold">B</span> &nbsp;<span onclick="PNETOOLS.FontStyle(this)" style="cursor:pointer;font-size:14px;font-family:arial;font-weight:normal;font-style:italic;font-weight:bold">i</span> &nbsp;&nbsp;&nbsp;<span onclick="PNETOOLS.LTRText()" style="cursor:pointer;font-size:12px;font-family:arial;font-weight:bold">LTR</span>&nbsp;/&nbsp;<span onclick="PNETOOLS.RTLText()" style="cursor:pointer;font-size:12px;font-family:arial;font-weight:bold">RTL</span> </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> Text Font: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="fontFamily" name="fontFamily" onchange="PNETOOLS.FontSelect(this)" style="width:100px">
+                                        <option value="Arial, Arial, Helvetica, sans-serif">Arial</option>
+                                        <option value="'Arial Black', 'Arial Black', Gadget, sans-serif">Arial Bold</option>
+                                        <option value="Courier New, Courier, monospace">Courier New</option>
+                                        <option value="Tahoma, Geneva, sans-serif">Tahoma</option>
+                                        <option value="Georgia1, Georgia, serif">Georgia</option>
+                                        <option value="Impact, Impact5, Charcoal6, sans-serif">Impact</option>
+                                        <option value="'Lucida Console', Monaco5, monospace">Lucida Console</option>
+                                        <option value="'Lucida Sans Unicode', 'Lucida Grande', sans-serif">Lucida Sans</option>
+                                        <option value="'Palatino Linotype', 'Book Antiqua3', Palatino, serif">Palatino Linotype</option>
+                                        <option value="'Times New Roman', 'Times New Roman', Times, serif">Times Roman</option>
+                                        <option value="'Trebuchet MS1', 'Trebuchet MS', sans-serif">Trebuchet</option>
+                                        <option value="Verdana, Verdana, Geneva, sans-serif">Verdana Geneva</option>
+                                        <option value="'MS Serif4', 'New York6', serif">MS Sans</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> Text Align: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select id="textAlign" name="select" onchange="PNETOOLS.StyleInlinediv('textAlign',this.value);">
+                                        <option value="left">Left</option>
+                                        <option value="center">Center</option>
+                                        <option value="right">Right</option>
+                                        <option value="justify">Justify</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> Text Color: </td>
+                            <td>
+                                <input id="colorh" onchange="PNETOOLS.StyleInlinediv('color','#'+this.value);" type="hidden" value='000000'>
+                                <input style="width:50px" data-colorinput="true" class="color { pickerClosable:true,valueElement:'colorh'}" id="color" type="text" value="#000000"> <img src="assets/m2/32x32/pantone.png" onClick="PNETOOLS.Swatches('color')" style="vertical-align:middle;padding-top:0px;height:24px;width:24px;cursor:pointer"> </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> Letter Spacing: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select id="letterSpacing" name="select10" onchange="PNETOOLS.StyleInlinediv('letterSpacing',this.value);">
+                                        <option value="-6px"> -6 </option>
+                                        <option value="-5px"> -5 </option>
+                                        <option value="-4px"> -4 </option>
+                                        <option value="-3px"> -3 </option>
+                                        <option value="-2px"> -2 </option>
+                                        <option value="-1px"> -1 </option>
+                                        <option value="0px"> 0 </option>
+                                        <option selected="selected" value="normal"> Normal </option>
+                                        <option value="1px"> 1 </option>
+                                        <option value="2px"> 2 </option>
+                                        <option value="3px"> 3 </option>
+                                        <option value="4px"> 4 </option>
+                                        <option value="5px"> 5 </option>
+                                        <option value="6px"> 6 </option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> Line Height: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="lineHeight" name="select10" onchange="PNETOOLS.StyleInlinediv('lineHeight',this.value);">
+                                        <option value="190%"> 190% </option>
+                                        <option value="180%"> 180% </option>
+                                        <option value="170%"> 170% </option>
+                                        <option value="160%"> 160% </option>
+                                        <option value="150%"> 150% </option>
+                                        <option value="140%"> 140% </option>
+                                        <option value="130%"> 130% </option>
+                                        <option value="120%"> 120% </option>
+                                        <option selected="selected" value="normal"> Normal </option>
+                                        <option value="110%"> 110% </option>
+                                        <option value="100%"> 100% </option>
+                                        <option value="90%"> 90% </option>
+                                        <option value="80%"> 80% </option>
+                                        <option value="70%"> 70% </option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Text Shadow: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="textShadow" id="textShadow" name="select10" onchange="if(this.value!=''){PNETOOLS.StyleInlinediv('textShadow',this.value +' #'+document.getElementById('textShadowColorh').value)}else{PNETOOLS.StyleInlinediv('textShadow','')};" style="width:100px">
+                                        <option selected="selected" value=""> None </option>
+                                        <option value="1px 1px 1px"> Bottom Right </option>
+                                        <option value="-1px 1px 1px"> Bottom Left </option>
+                                        <option value="-1px -1px 1px"> Top Left </option>
+                                        <option value="1px -1px 1px"> Top Right </option>
+                                        <option value="1px 1px 2px"> Bottom Right 2px </option>
+                                        <option value="-1px 1px 2px"> Bottom Left 2px </option>
+                                        <option value="-1px -1px 2px"> Top Left 2px </option>
+                                        <option value="1px -1px 2px"> Top Right 2px </option>
+                                        <option value="1px 1px 3px"> Bottom Right 3px </option>
+                                        <option value="-1px 1px 3px"> Bottom Left 3px </option>
+                                        <option value="-1px -1px 3px"> Top Left 3px </option>
+                                        <option value="1px -1px 3px"> Top Right 3px </option>
+                                        <option value="3px 3px 3px"> Bottom Right Deep </option>
+                                        <option value="-3px 3px 3px"> Bottom Left Deep </option>
+                                        <option value="-3px -3px 3px"> Top Left Deep </option>
+                                        <option value="3px -3px 3px"> Top Right Deep </option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Text Shadow Color: </td>
+                            <td>
+                                <input id="textShadowColorh" onchange="if(document.getElementById('textShadow').value != ''){PNETOOLS.StyleInlinediv('textShadow',document.getElementById('textShadow').value+' #'+this.value)} else {PNETOOLS.StyleInlinediv('textShadow','3px 3px 3px #'+this.value)}" type="hidden" value='565656' style="width:50px">
+                                <input style="width:50px" data-colorinput="true" class="color { pickerClosable:true,valueElement:'textShadowColorh'}" id="textShadowColor" type="text" value="#000000"> <img src="assets/m2/32x32/pantone.png" onClick="PNETOOLS.Swatches('textShadow')" style="vertical-align:middle;padding-top:0px;height:24px;width:24px;cursor:pointer"> </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                
+                <div id='NoEdittool3-Boxstyle' style='display:none' class="Bonding">
+                    <div id="NoEdittool3-5embed" class="Gradinlinemenu" style="font-family: Arial, Arial, Helvetica, sans-serif; font-size: 16px; border: 1px none rgb(0, 0, 0); padding: 0px; padding-top:5px; border-spacing: 0px; width: 100%; text-align: center; margin: 0px auto; overflow: hidden; word-wrap: break-word; letter-spacing: normal; line-height: 90%; font-weight: normal; color: rgb(0, 0, 0); position: relative;  background-color: rgb(255, 255, 255);font-weight:bolder"> Box Styles
+                        <p style="font-size:11px;font-weight:normal">Click to select text box.
+                            <br> Then set box styles.</p>
+                    </div>
+                    <br>
+                    
+                    <table style="width:228px;color:white height:368px" cellpadding="1" cellspacing="1" class="BondingT">
+                        <tr>
+                            <td valign="top"> Border: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="borderStyle" name="select3" onchange="PNETOOLS.StyleInlinediv('borderStyle',this.value)">
+                                        <option value="none">None</option>
+                                        <option value="solid">Solid</option>
+                                        <option value="dotted">Dotted</option>
+                                        <option value="dashed">Dashed</option>
+                                        <option value="double">Double</option>
+                                        <option value="groove">Groove</option>
+                                        <option value="ridge">Ridge</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top"> Border Size: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="borderWidth" name="select4" onchange="PNETOOLS.StyleInlinediv('borderWidth',this.value);if (PlugNedit.RE('borderStyle').value=='none'){PNETOOLS.StyleInlinediv('borderStyle','solid')}">
+                                        <option selected="selected" value="1px">1</option>
+                                        <option value="2px">2</option>
+                                        <option value="3px">3</option>
+                                        <option value="4px">4</option>
+                                        <option value="5px">5</option>
+                                    </select>
+                                    <input id="CloseElement" name="hidden" type="hidden" value="null"> 
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="26px"> Border Color: </td>
+                            <td>
+                                <input style="width:50px" data-colorinput="true" class="color { pickerClosable:true,valueElement:'borderColorh'}" id="borderColor" type="text" value="#000000"> <img src="assets/m2/32x32/pantone.png" onClick="PNETOOLS.Swatches('borderColor')" style="vertical-align:middle;padding-top:0px;height:24px;width:24px;cursor:pointer">
+                                <input id="borderColorh" onchange="PNETOOLS.StyleInlinediv('borderColor','#'+this.value);if (PlugNedit.RE('borderStyle').value=='none'){PNETOOLS.StyleInlinediv('borderStyle','solid')}" type="hidden" value='000000'> </td>
+                        </tr>
+                        <tr>
+                            <td> Background Color: </td>
+                            <td>
+                                <input data-colorinput="true" class="color { pickerClosable:true,valueElement:'backgroundColorh'}" id="backgroundColor" onFocus="if(this.value.match('FFFFFF')){this.style.backgroundColor='#000000'}" style="width:50px;padding-top:2px;vertical-align:top;text-shadow: 0 0 0.1em black;height:16px;border-color:black" type="text" value="#ffffff"> <img src="assets/m2/32x32/pantone.png" onClick="PNETOOLS.Swatches('backgroundColor')" style="vertical-align:middle;padding-top:0px;height:24px;width:24px;cursor:pointer">
+                                <input id="backgroundColorh" onchange="PNETOOLS.StyleInlinediv('backgroundColor','#'+this.value)" type="hidden" value='ffffff'> </td>
+                        </tr>
+                        <tr>
+                            <td> Background Option: </td>
+                            <td> <img alt="Set Background Transparent" onclick="PNETOOLS.StyleInlinediv('backgroundColor','transparent')" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" title="Set Background Transparent" src="assets/m2/32x32/Transparentbackground.png" style="padding-top:0px;height:24px;width:24px;cursor:pointer"> <img title="Set Background Gradient" alt="Set Background Gradient" onclick="PNETOOLS.StyleEditorObject( 'NoEditupper6Grad','display','' );PNETOOLS.StyleEditorObject( 'NoEditupper6Grad','visibility','visible' );" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" onmouseover="this.style.cursor='pointer';PNETOOLS.ToolTip('Set Gradient Background')" src="assets/m2/32x32/sgrad.png" style="height:24px;width:24px;padding-top:0px"> </td>
+                        </tr>
+                        <tr>
+                            <td> Padding: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="padding" name="paddding" onchange="PNETOOLS.StyleInlinediv('padding',this.value);">
+                                        <option value="1px"> 1 </option>
+                                        <option value="2px"> 2 </option>
+                                        <option selected="selected" value="3px"> 3 </option>
+                                        <option value="4px"> 4 </option>
+                                        <option value="5px"> 5 </option>
+                                        <option value="6px"> 6 </option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Border Radius: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="borderRadius" name="borderRaduis" onchange="PNETOOLS.StyleInlinediv('borderRadius',this.value);">
+                                        <option selected="selected" value=""> None </option>
+                                        <option value="1px"> 1 </option>
+                                        <option value="2px"> 2 </option>
+                                        <option value="3px"> 3 </option>
+                                        <option value="4px"> 4 </option>
+                                        <option value="5px"> 5 </option>
+                                        <option value="6px"> 6 </option>
+                                        <option value="7px"> 7 </option>
+                                        <option value="8px"> 8 </option>
+                                        <option value="9px"> 9 </option>
+                                        <option value="10px"> 10 </option>
+                                        <option value="11px"> 11 </option>
+                                        <option value="12px"> 12 </option>
+                                        <option value="13px"> 13 </option>
+                                        <option value="20px"> 20 </option>
+                                        <option value="30px"> 30 </option>
+                                        <option value="50px"> 50 </option>
+                                        <option value="80px"> 80 </option>
+                                        <option value="100px"> 100 </option>
+                                        <option value="200px"> 200 </option>
+                                        <option value="500px"> 500 </option>
+                                        <option value="1000px"> 1000 </option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Box Drop Shadow: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select class="Stext" id="boxShadow" name="boxShadow" onchange="if(this.value!=''){PNETOOLS.StyleInlinediv('boxShadow',this.value+' #'+document.getElementById('boxShadowColorh').value)} else{PNETOOLS.StyleInlinediv('boxShadow','')}" style="width:100px">
+                                        <option selected="selected" value=""> None </option>
+                                        <option value="3px 3px 3px"> Short Bottom Right </option>
+                                        <option value="-3px 3px 3px"> Short Bottom Left </option>
+                                        <option value="-3px -3px 3px"> Short Top Left </option>
+                                        <option value="3px -3px 3px"> Short Top Right </option>
+                                        <option value="5px 5px 5px"> Medium Bottom Right </option>
+                                        <option value="-5px 5px 5px"> Medium Bottom Left </option>
+                                        <option value="-5px -5px 5px"> Medium Top Left </option>
+                                        <option value="5px -5px 5px"> Medium Top Right </option>
+                                        <option value="7px 7px 5px"> Deep Bottom Right </option>
+                                        <option value="-7px 7px 5px"> Deep Bottom Left </option>
+                                        <option value="-7px -7px 5px"> Deep Top Left </option>
+                                        <option value="7px -7px 5px"> Deep Top Right </option>
+                                        <option value="10px 10px 2px"> Deeper Bottom Right 2px </option>
+                                        <option value="-10px 10px 2px"> Deeper Bottom Left 2px </option>
+                                        <option value="-10px -10px 2px"> Deeper Top Left 2px </option>
+                                        <option value="10px -10px 2px"> Deeper Top Right 2px </option>
+                                        <option value="10px 10px 10px"> Deeper Bottom Right 10px </option>
+                                        <option value="-10px 10px 10px"> Deeper Bottom Left 10px </option>
+                                        <option value="-10px -10px 10px"> Deeper Top Left 10px </option>
+                                        <option value="10px -10px 10px"> Deeper Top Right 10px </option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Drop Shadow Color: </td>
+                            <td>
+                                <input id="boxShadowColorh" onchange="if(document.getElementById('boxShadow').value != ''){PNETOOLS.StyleInlinediv('boxShadow',document.getElementById('boxShadow').value+' #'+this.value)} else {PNETOOLS.StyleInlinediv('boxShadow','3px 3px 3px #'+this.value)}" type="hidden" value='565656'>
+                                <input style="width:50px" data-colorinput="true" class="color { pickerClosable:true,valueElement:'boxShadowColorh'}" id="boxShadowColor" type="text" value="#000000"> <img src="assets/m2/32x32/pantone.png" onClick="PNETOOLS.Swatches('boxShadow')" style="vertical-align:middle;padding-top:0px;height:24px;width:24px;cursor:pointer"> </td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div id='NoEdittool3-Fontstyle' style='visibility:hidden;overflow:hidden;height:0px' class="Bonding">
+                    <div id="NoEdittool3-5embed" class="Gradinlinemenu" style="font-family: Arial, Arial, Helvetica, sans-serif; font-size: 16px; border: 1px none rgb(0, 0, 0); padding: 0px; padding-top:5px; border-spacing: 0px; width: 100%; text-align: center; margin: 0px auto; overflow: hidden; word-wrap: break-word; letter-spacing: normal; line-height: 90%; font-weight: normal; color: rgb(0, 0, 0); position: relative; background-color: rgb(255, 255, 255);font-weight:bolder"> Font Styles
+                        <p style="font-size:11px;font-weight:normal">Click to select text box.
+                            <br> Then set font styles.</p>
+                    </div>
+                    
+                    <br>
+                    <div> 
+                    <span style="font-size:11px;color:black">Select only Google fonts you are going to use, fonts appear in drop down font menu for use. fonts may take a moment to load.</span>
+                     <iframe id="PNEFontFrame" name="PNEFontFrame" src="" style="border:1px solid black;background-color:#616160;height:250px;width:220px"></iframe>
+                    
+                    </div>
+                    
+                   </div>
+           
+            
+            <br>
+            
+            <div id='NoEdittool3-5Btext' style="width:220px;border: 1px solid black;margin:2px;padding:2px;border-radius:5px;display:none"> <img src='assets/textstyle.png' style='width:150px;cursor:pointer' onclick="PlugNedit.RE('NoEdittool3-5Btext').style.display='none';PlugNedit.RE('NoEdittool3-5Bbox').style.display='';PlugNedit.RE('NoEdittool3-5Bfont').style.display='';PlugNedit.RE('NoEdittool3-Fontstyle').style.visibility='hidden';PlugNedit.RE('NoEdittool3-Fontstyle').style.height='0px';PlugNedit.RE('NoEdittool3-Boxstyle').style.display='none';PlugNedit.RE('NoEdittool3-Textstyle').style.display='';"> </div>
+            <div id='NoEdittool3-5Bbox' style="width:220px;border: 1px solid black;margin:2px;padding:2px;border-radius:5px"> <img src='assets/boxstyle.png' style='width:135px;cursor:pointer' onclick="PlugNedit.RE('NoEdittool3-5Bbox').style.display='none';PlugNedit.RE('NoEdittool3-5Btext').style.display='';PlugNedit.RE('NoEdittool3-5Bfont').style.display='';PlugNedit.RE('NoEdittool3-Fontstyle').style.visibility='hidden';PlugNedit.RE('NoEdittool3-Fontstyle').style.height='0px';PlugNedit.RE('NoEdittool3-Boxstyle').style.display='';PlugNedit.RE('NoEdittool3-Textstyle').style.display='none';"> </div>
+            <div id='NoEdittool3-5Bfont' style="width:220px;border: 1px solid black;margin:2px;padding:2px;border-radius:5px"> <img src='assets/fontstyle.png' style='cursor:pointer; width:165px' onclick="PlugNedit.RE('NoEdittool3-5Bfont').style.display='none';PlugNedit.RE('NoEdittool3-5Btext').style.display='';PlugNedit.RE('NoEdittool3-5Bbox').style.display='';PlugNedit.RE('NoEdittool3-Fontstyle').style.visibility='';PlugNedit.RE('NoEdittool3-Fontstyle').style.height='370px';PlugNedit.RE('NoEdittool3-Boxstyle').style.display='none';PlugNedit.RE('NoEdittool3-Textstyle').style.display='none';"> </div>
+            <br> <span id="PNEinlinedisplay" style="display:none;font-size:12px"> Toggle ON / Off Inline Editing:  <input checked id="PNECKEditorLoadedCheck" type="checkbox" onChange="PNECKEditorLoaded=this.checked"><br></span>
+
+            </div>
+            
+        <!-- Menu 2 (Default not in use.)-->
+        <div id="NoEdittool2" class="Stylemenubox" style="padding:0px;text-align:left;visibility:hidden; position:absolute; background-color:white; top:0px; left:0px; width:236px; height:1250px; z-index:3000;overflow:hidden">
+        
+        </div>
+        
+          <!-- Menu 3 (Default options menu.)-->
+        <div id="NoEdittool3" class="Stylemenubox" style="padding:0px;text-align:left;visibility:hidden; position:absolute; background-color:white; top:0px; left:0px; width:236px; height:1250px; z-index:3000;overflow:hidden">
+          
+            <div class="Bonding" style="padding:3px">
+             
+                <div id="NoEdittool3-23embed" class="Gradinlinemenu" style="font-family: Arial, Arial, Helvetica, sans-serif; font-size: 16px; border: 1px none rgb(0, 0, 0); padding: 0px; padding-top:5px; border-spacing: 0px; width: 100%; text-align: center; margin: 0px auto; word-wrap: break-word; letter-spacing: normal; line-height: 90%; font-weight: normal; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);font-weight:bolder"> Options
+                    <p style="font-size:11px;font-weight:normal">Select your page options.</p>
+                </div>
+                
+                <table>
+                    <tr>
+                        <td style="height:22px">
+                            <input class="button" name="Undo" onmousedown="PNETOOLS.UndoIt(-1)" style="height:20px;font-weight:bold;font-size:11px;color:white;width:83px;-webkit-border-radius:0px;border-radius:0px;padding:3px" type="button" value="Undo">&nbsp;
+                            <input class="button" name="Redo" onmousedown="PNETOOLS.UndoIt(1)" style="height:20px;font-weight:bold;font-size:11px;color:white;width:83px;-webkit-border-radius:0px;border-radius:0px;padding:3px" type="button" value="Redo">
+                            <BR>
+                            <BR> </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="button" name="Hide / Show Guides &amp; Rules " onclick="PNETOOLS.Guides()" style="height:20px;font-weight:bold;font-size:11px;color:white;width:180px;-webkit-border-radius:0px;border-radius:0px;padding:3px" type="button" value="Hide / Show Guides &amp; Rules">
+                            <br>
+                            <br>
+                          
+                            <table class="BondingT">
+                                <tr>
+                                    <td>Page Background:&nbsp;</td>
+                                    <td>
+                                        <input id="PageBackgroundValueh" onchange="PNETOOLS.BGColor(this.value)" type="hidden" value='1D4D5E'>
+                                        <input data-colorinput="true" type="text" class="color { pickerClosable:true,valueElement:'PageBackgroundValueh'}" id="PageBackgroundValue"> </td>
+                                </tr>
+                                <tr>
+                                    <td> Editor Margin Width: </td>
+                                    <td>
+                                        <input id="MarginsWidthInput" onblur="document.getElementById('ToolTip').style.visibility='Hidden'" onkeyup="PNETOOLS.ResetMargins(this.value)" style="width:40px;height:15px" type="text" value=""> Pixels </td>
+                                </tr>
+                                <tr>
+                                    <td> Show / Hide Grids: </td>
+                                    <td>
+                                        <input type="checkbox" checked name="Grids" onChange="PNETOOLS.Grids(this.checked)"> </td>
+                                </tr>
+                                <tr>
+                                    <td> Single Move Handle: </td>
+                                    <td>
+                                        <input type="checkbox" checked name="SingleHandle" onChange="PNETOOLS.SingleHandle(this.checked)">
+                                        <br> </td>
+                                </tr>
+                                <tr>
+                                    <td> Snap To Objects: </td>
+                                    <td>
+                                        <input type="checkbox" checked name="PNESnap" onChange="PlugNedit.PNESnap=this.checked">
+                                        <br> </td>
+                                </tr>
+                                <tr>
+                                    <td> Padding Bottom: </td>
+                                    <td>
+                                        <input type="text" name="pnesetpaddingbottom" onChange="PNETOOLS.PadBottom(this.value)" value="60" style="width:50px"> PX </td>
+                                </tr>
+                                <tr>
+                            </table>
+                        </td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+        
+       <!-- Menu 4 (Default layers menu.)-->
+          
+        <div id="NoEdittool4" class="Stylemenubox" style="padding:2px;text-align:center;visibility:hidden; position:absolute; background-color:white; top:0px; left:0px; width:232px; height:1250px; z-index:3000;overflow:hidden">
+          
+            <div class="Bonding" style="left:4px;top:5px;position:absolute;z-index:9999;width:225px">
+            
+                <div id="NoEdittool3-2embed" class="Gradinlinemenu" style="font-family: Arial, Arial, Helvetica, sans-serif; font-size: 16px; border: 1px none rgb(0, 0, 0); padding: 0px; padding-top:5px; border-spacing: 0px; width: 100%; text-align: center; margin: 0px auto; overflow: hidden; word-wrap: break-word; letter-spacing: normal; line-height: 90%; font-weight: normal; color: rgb(0, 0, 0); position: relative;  background-color: rgb(255, 255, 255);font-weight:bolder"> Layers
+                    <p style="font-size:11px;font-weight:normal">Click to select layer.
+                    </p>
+                </div>
+                
+                  <!-- Layers are displayed here -->
+                <div id="LayersPallet" class="Bonding" style="padding:0px;border-radius:0px;font-family: Baumans;font-weight:bold;font-size: 12px;overflow:auto;border-color:black; border-style:solid;border-width:1px;  background-color:white;width:99%; height:250px;opacity:1;filter:alpha(opacity=100);text-align:left"> 
+                </div>
+                    
+                <br>
+                <img alt="Delete Layer" onclick="PNETOOLS.DeleteLayers('1')" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" title="Delete Current Active Layer" src="assets/m2/32x32/closefile.png" style="cursor:pointer;height:32px;">&nbsp; <img alt="New Link" onclick="PNETOOLS.DisplayOptionsMenu();" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" src="assets/m2/32x32/Touch.png" title="Create Hyperlink" style="cursor:pointer;height:32px;">&nbsp;<img src="assets/m2/32x32/Copy.png" style="cursor:pointer;height:32px" onclick="PNETOOLS.CloneLayers()" title="Duplicate LAYER">&nbsp;<img src="assets/m2/32x32/Trans.png" style="cursor:pointer;height:32px" onclick="PNETOOLS.TransDiv(10)" title="More Transparent">&nbsp;<img src="assets/m2/32x32/Trans.png" style="cursor:pointer;height:32px;opacity:.6" onclick="PNETOOLS.TransDiv(-10)" title="Less Transparent">
+                <br> 
+           </div>   
+       </div>
+     
+        
+        <!-- Menu 5 (Default layers menu.)-->
+        
+        <div id="NoEdittool5" class="Stylemenubox" style="padding:8px;visibility:hidden; position:absolute; background-color:white; top:0px; left:0px; width:220px; height:1250px; z-index:4000;overflow:hidden">
+             
+                <div style="width:215px;padding:2px" align="center"> 
+                <!-- data onlick connects to code we have for uploading to third pary image hosting. You may request code if you want it.-->
+                <img src="assets/m2/32x32/gallery.png" style="cursor:pointer;height:32px;" title="Image Gallery">&nbsp; &nbsp; &nbsp; <img src="assets/m2/32x32/uploadimage.png" style="cursor:pointer;height:32px;" data-onclick="document.getElementById('PNEpimple').src='thirdpartyupload.html?temp='+Math.floor((Math.random()*10343434324234)+1);document.getElementById('PNEpimple').style.display='';document.getElementById('PNEpimple').style.top=PlugNedit.TempScrollTop+30+'px'" title="Upload Image">&nbsp; &nbsp; &nbsp; <img src="assets/m2/32x32/newimage.png" style="cursor:pointer;height:32px;" onclick="PNETOOLS.StyleEditorObject( 'UrlImage','display','' );PNETOOLS.StyleEditorObject( 'UrlImage','visibility','visible' );" title="Insert Image From URL">
+                </div>
+             
+            
+            <div class="Bonding" id="NoEdittool3embed" style="padding:0px; text-align: left;  width: 230px; top: 90px; height: 235px; z-index: 1; position: absolute; left: 1px;">
+               
+                <div id="NoEdittool3-1embed" class="Gradinlinemenu" style="font-family: Arial, Arial, Helvetica, sans-serif; font-size: 16px; border: 1px none rgb(0, 0, 0); padding: 0px; padding-top:5px; border-spacing: 0px; width: 100%; text-align: center; margin: 0px auto; overflow: hidden; word-wrap: break-word; letter-spacing: normal; line-height: 90%; font-weight: normal; color: rgb(0, 0, 0); position: relative; background-color: rgb(255, 255, 255);font-weight:bolder"> Image Design
+                    <p style="font-size:11px;font-weight:normal">Select a picture then set your styles.</p>
+                </div>
+                
+                
+                <div class="BondingT">
+                    <br>
+                    <table style="padding:8px" class="BondingT">
+                        <tr>
+                            <td> Drop Shadow: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select id="boxShadowI" name="imageboxshadow" onchange="javascript: if(this.value!=''){PNETOOLS.StyleInlinediv('boxShadow',this.value+' #'+document.getElementById('boxShadowColorIh').value,'image')} else{PNETOOLS.StyleInlinediv('boxShadow','','image')}" style="width:100px">
+                                        <option selected="selected" value="">None</option>
+                                        <option value="3px 3px 3px">Short Bottom Right</option>
+                                        <option value="-3px 3px 3px">Short Bottom Left</option>
+                                        <option value="-3px -3px 3px">Short Top Left</option>
+                                        <option value="3px -3px 3px">Short Top Right</option>
+                                        <option value="5px 5px 5px">Medium Bottom Right</option>
+                                        <option value="-5px 5px 5px">Medium Bottom Left</option>
+                                        <option value="-5px -5px 5px">Medium Top Left</option>
+                                        <option value="5px -5px 5px">Medium Top Right</option>
+                                        <option value="7px 7px 5px">Deep Bottom Right</option>
+                                        <option value="-7px 7px 5px">Deep Bottom Left</option>
+                                        <option value="-7px -7px 5px">Deep Top Left</option>
+                                        <option value="7px -7px 5px">Deep Top Right</option>
+                                        <option value="10px 10px 2px">Deeper Bottom Right 2px</option>
+                                        <option value="-10px 10px 2px">Deeper Bottom Left 2px</option>
+                                        <option value="-10px -10px 2px">Deeper Top Left 2px</option>
+                                        <option value="10px -10px 2px">Deeper Top Right 2px</option>
+                                        <option value="10px 10px 10px">Deeper Bottom Right 10px</option>
+                                        <option value="-10px 10px 10px">Deeper Bottom Left 10px</option>
+                                        <option value="-10px -10px 10px">Deeper Top Left 10px</option>
+                                        <option value="10px -10px 10px">Deeper Top Right 10px</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Shadow Color: </td>
+                            <td>
+                                <input id="boxShadowColorIh" onchange="javascript: if(document.getElementById('boxShadowI').value != ''){PNETOOLS.StyleInlinediv('boxShadow',document.getElementById('boxShadowI').value+' #'+this.value,'image')}" type="hidden" value='565656'>
+                                <input data-colorinput="true" class="color { pickerClosable:true,valueElement:'boxShadowColorIh'}" id="boxShadowColorI" type="text" value="#000000"> </td>
+                        </tr>
+                        <tr>
+                            <td> Border Radius: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select id="borderRadiusI" name="borderRadiusI" onchange="PNETOOLS.StyleInlinediv('borderRadius',this.value,'image');">
+                                        <option selected="selected" value="">None</option>
+                                        <option value="1px">1</option>
+                                        <option value="2px">2</option>
+                                        <option value="3px">3</option>
+                                        <option value="4px">4</option>
+                                        <option value="5px">5</option>
+                                        <option value="6px">6</option>
+                                        <option value="7px">7</option>
+                                        <option value="8px">8</option>
+                                        <option value="9px">9</option>
+                                        <option value="10px">10</option>
+                                        <option value="11px">11</option>
+                                        <option value="12px">12</option>
+                                        <option value="13px">13</option>
+                                        <option value="20px">20</option>
+                                        <option value="30px">30</option>
+                                        <option value="50px">50</option>
+                                        <option value="80px">80</option>
+                                        <option value="150px">150</option>
+                                        <option value="250px">250</option>
+                                        <option value="500px">500</option>
+                                        <option value="1000px">1000</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Image Border: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select id="borderStyleI" name="borderStyleI" onchange="PNETOOLS.StyleInlinediv('borderStyle',this.value,'image')">
+                                        <option value="none" selected>None</option>
+                                        <option value="solid">Solid</option>
+                                        <option value="dotted">Dotted</option>
+                                        <option value="dashed">Dashed</option>
+                                        <option value="double">Double</option>
+                                        <option value="groove">Groove</option>
+                                        <option value="ridge">Ridge</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Border Size: </td>
+                            <td>
+                                <div class="styled-select">
+                                    <select id="borderWidthI" name="borderWidthI" onchange="PNETOOLS.StyleInlinediv('borderWidth',this.value,'image');">
+                                        <option selected="selected" value="0px">0</option>
+                                        <option value="1px">1</option>
+                                        <option value="2px">2</option>
+                                        <option value="3px">3</option>
+                                        <option value="4px">4</option>
+                                        <option value="5px">5</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Border Color: </td>
+                            <td>
+                                <input id="borderColorIh" onchange="PNETOOLS.StyleInlinediv('borderColor','#'+this.value,'image')" type="hidden" value='565656'>
+                                <input data-colorinput="true" class="color { pickerClosable:true,valueElement:'borderColorIh'}" id="borderColorI" type="text" value="#565656"> </td>
+                        </tr>
+                    </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right menu click.)-->
+    <div id="RightClickMenu" class="Stylemenubox" style="visibility: hidden; position: absolute; background-color: white; top: 180px; left: 33px; width: 180px; height: 244px; z-index: 9999; opacity: 1;">
+        <div id="RightMouseClickOptionNoEdit1" onclick="PNETOOLS.LayerAdjust(undefined,undefined,'Front')" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.LayerAdjust(undefined,undefined,'Front')" src="assets/picon/png/32x32/up.png" style="cursor:pointer;height:18px;width:18px" width="18" height="18">&nbsp; Bring To Front</div>
+        <div id="RightMouseClickOptionNoEdit2" onclick="PNETOOLS.LayerAdjust(undefined,undefined,'Back')" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.LayerAdjust(undefined,undefined,'Back')" src="assets/picon/png/32x32/down.png" style="cursor:pointer;height:18px;width:18px" width="18" height="18">&nbsp; Send To Back</div>
+        <div id="RightMouseClickOptionNoEdit3" onclick="PNETOOLS.LayerAdjust(1,undefined,undefined)" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.LayerAdjust(1,undefined,undefined)" src="assets/picon/png/32x32/up.png" style="cursor:pointer;height:14px;width:14px" width="14" height="14">&nbsp; Bring Forward</div>
+        <div id="RightMouseClickOptionNoEdit4" onclick="PNETOOLS.LayerAdjust(0,undefined,undefined)" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.LayerAdjust(0,undefined,undefined)" src="assets/picon/png/32x32/down.png" style="cursor:pointer;height:14px;width:14px" width="14" height="14">&nbsp; Send Backward</div>
+        <div id="RightMouseClickOptionNoEdit5" onclick="PNETOOLS.DeleteLayers()" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.DeleteLayers()" src="assets/picon/png/32x32/closefile.png" style="cursor:pointer;height:16px;width:16px" width="16" height="16">&nbsp; Delete Layer</div>
+        <div id="RightMouseClickOptionNoEdit6" onclick="PNETOOLS.TransDiv(-10)" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.TransDiv(-10)" src="assets/m2/32x32/trans.png" style="cursor:pointer;height:16px;width:16px" width="16" height="16"> &nbsp; More Transparent</div>
+        <div id="RightMouseClickOptionNoEdit7" onclick="PNETOOLS.TransDiv(10)" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:grey;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onclick="PNETOOLS.TransDiv(10)" src="assets/m2/32x32/trans.png" style="cursor:pointer;height:16px;width:16px" width="16" height="16">&nbsp; Less Transparent</div>
+        <div id="RightMouseClickOptionaNoEdit8" onmousedown="PNETOOLS.UndoIt(-1)" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:black;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onmousedown="PNETOOLS.UndoIt(-1)" src="assets/24x24/undo.png" style="cursor:pointer;height:16px;width:16px" width="16" height="16">&nbsp; Undo</div>
+        <div id="RightMouseClickOptionNoEdit9" onmousedown="PNETOOLS.UndoIt(1)" onmouseout="this.style.backgroundColor='white';this.style.cursor='auto'" onmouseover="javascript:if(this.style.color=='black'){this.style.backgroundColor='yellow';this.style.cursor='pointer'}" style="height:25px;border-color:grey;border-width:1px;border-style:solid;color:black;font-size:16px;font-family:'Times New Roman', Times, serif;font-weight:bold">&nbsp;<img onmousedown="PNETOOLS.UndoIt(1)" src="assets/24x24/redo.png" style="cursor:pointer;height:16px;width:16px" width="16" height="16">&nbsp; Redo</div>
+    </div>
+    
+        <!-- Layers option dialog box.)-->
+    <div id="LayerOptionsDialogBox" class="Styleddailbox TextShadow gradboxent" style="padding: 14px; visibility: hidden;display:none; position: fixed; top: 50px; left: 0px; right: 0px; width: 500px; height: 350px; z-index: 100002; opacity: 1; margin: auto;">
+        <br>
+        <h1> Current Layer Name: </h1>
+        <input class="BtextB" id="OptionsLayerName" maxlength="16" type="text" value="">
+        <br>
+        <div id="OptionsImageSrc" style="display:none">Current Image URL:&nbsp;
+            <input class="Btext" id="OptionsURLsrc" size="60" type="text" value="">
+            <br> 
+        </div>
+        <br>
+        <h1>Create Link To Another Page:</h1>
+        <br>
+        <div id="OptionsOffsiteDiv" style="display:none">(Example http://www.google.com): Web Address:
+            <input class="Btext" id="OptionsCustomURL" name="OffSiteLinks" type="text" value="">
+            <br>
+            <input id="LayerNumberUpdate" name="LayerNumberUpdate" type="hidden" value=""> 
+        </div>
+        <div id="LoadPNELINKS"> <span class="BtextB"><h1>
+               <select id="OptionsHyperLinkSelect" class="Btext" onChange="if (this.value==''){document.getElementById('OptionsOffsiteDiv').style.display=''} else if (this.value=='None'){document.getElementById('OptionsCustomURL').value='';document.getElementById('OptionsOffsiteDiv').style.display='none'} else {document.getElementById('OptionsCustomURL').value=this.value;}" >
+                  <option value="None"  selected style="color:red">None</option>
+                  <option value="" style="color:red" >Off Site Link</option>
+              
+               </select>  &nbsp;&nbsp;
+            <input id="OptionsLinkTarget" type="checkbox" value="1">Open in new tab/window.</h1></span> </div>
+        <br>
+        <br>
+        <div id="DisplayStyleItems2" style="display:none"> <span id="CssNO2">Duplicate Look Of Another Item: (Font, Text Color, Etc.):&nbsp;</span> &nbsp;
+            <div id="OptionMenuStylesSelect"> <span class="Gtext" id="LayerSelectStyle2" onclick="LStylesN()">Click To Load Layer Styles</span> 
+            </div>
+            <br>
+            <br> 
+        </div>
+        <br>
+        <div style="position:relative;bottom:0px;left:20px">
+            <input class="button" name="Submit" onclick="PNETOOLS.EditorOptions();PlugNedit.HideEditorMenus(PlugNedit.GetEditorObject.LayerOptionsDialogBox());" type="button" value="Update Layer" style="height:20px;font-weight:bold;font-size:11px;color:white;width:150px;-webkit-border-radius:0px;border-radius:0px;padding:3px"> &nbsp; &nbsp; &nbsp;
+            <input class="button" name="Cancel" onclick="PlugNedit.HideEditorMenus(PlugNedit.GetEditorObject.LayerOptionsDialogBox());" type="button" value="Cancel" style="height:20px;font-weight:bold;font-size:11px;color:white;width:150px;-webkit-border-radius:0px;border-radius:0px;padding:3px"> 
+    </div>
+    </div>
+    
+       <!-- Colored Cover over editor when loading.) -->
+    <div id="ColoredCover" class="StyleHcover" style="padding:8px; float:right; background-color:white; top:0px; right:0px;position:fixed; width:100%; height:100%; z-index:100001 ;opacity:.55;filter:alpha(opacity=55)"></div>
+    
+     <!-- Page selection type, default is fixed, needs server side or client side scripting for mobile and responsive -->
+    <div id="EntryPageSelection" class="Styleddailbox gradboxent" style="padding: 8px; visibility: visible; display:none; position: absolute; top: 40px; left: 0px; right: 0px; width: 1010px; height: 580px; z-index: 100002; opacity: 1; margin: auto; background-color: white;">
+        <div style="top:30px;border: 1px solid black;width:300px;height:500px;background-color:#B36697;float:left;color:white;padding:5px;font-size:14px;text-align:justify;position:relative;margin:8px;margin-left:20px">
+            <div align="center" style="font-size:29px;font-weight:bolder;color:black;text-shadow: 0px 0px 2px rgba(255, 255, 255, 1);">Fixed Design</div>
+            <br> Fixed design allows you to create a fixed page size.
+            <br>
+            <br> It will look the same on all browsers however it will not shrink to the size of the device. Fixed designs are used for business, photography and artist sites when design concepts are important.
+            <br>
+            <br>
+            <div>Pros</div>
+            <ul>
+                <li>Full HTML layout options available.</li>
+                <li>Fast drag and drop editing.</li>
+                <li>Does not shrink and change layout.</li>
+                <li>Looks exactly like you build it.</li>
+            </ul>
+            <br>
+            <div>Cons</div>
+            <ul>
+                <li>Does not shrink to fit a mobile device.</li>
+            </ul>
+            <br>
+            <div align="center" style="position:absolute;bottom:20px;right:0px;left:0px;margin: auto;font-weight:bolder;font-size:15px">
+                <input type='checkbox' onclick="PlugNedit.ResetMargins('600')"> I use themes that contain Side Bars.
+                <br>
+                <input class="button" name="New Fixed Page" onclick="PlugNedit.RE('ColoredCover').style.display='none';PlugNedit.RE('EntryPageSelection').style.display='none';PNETOOLS.SideBar('1');" style="height:20px;font-weight:bold;font-size:11px;color:white;width:200px;-webkit-border-radius:0px;border-radius:0px;padding:3px" type="button" value="New Fixed Page"> </div>
+        </div>
+        <div style="top:30px;border: 1px solid black;width:300px;height:500px;float:left;background-color:#6667B3;color:white;padding:5px;font-size:14px;text-align:justify;position:relative;margin:8px;">
+            <div align="center" style="font-size:29px;font-weight:bolder;color:black;text-shadow: 0px 0px 2px rgba(255, 255, 255, 1);">Responsive Design</div> Responsive pages adjust to the browsers size and typically push the content down as the page width becomes smaller.
+            <br>
+            <br>Plug N Edit uses scripting to adjust the size, instead of just pushing the content down. Compatible with all modern browsers except EI8, a full page version is displayed in that case .
+            <br>
+            <br>
+            <div>Pros</div>
+            <ul>
+                <li>One page fits all.</li>
+                <li>Full HTML layout options still available. </li>
+                <li>Does not change layout.</li>
+                <li>Looks exactly like you build it</li>
+            </ul>
+            <br>
+            <div>Cons</div>
+            <ul>
+                <li>You must use larger text sizes so they display in mobile devices well.</li>
+            </ul>
+         
+            <div align="center" style="position:absolute;bottom:20px;right:0px;left:0px;margin: auto;font-weight:bolder;font-size:15px">
+                <input type='checkbox' onclick="PlugNedit.ResetMargins('600')"> I use themes that contain Side Bars.
+                <br>
+                <input class="button" name="New Responsive Page" onclick="PlugNedit.RE('ColoredCover').style.display='none';PlugNedit.CreateResponsive();PlugNedit.RE('EntryPageSelection').style.display='none';PNETOOLS.SideBar('1');" style="height:20px;font-weight:bold;font-size:11px;color:white;width:200px;-webkit-border-radius:0px;border-radius:0px;padding:3px" type="button" value="New Responsive Page"> </div>
+        </div>
+        <div style="top:30px;border: 1px solid black;width:300px;height:500px;float:left;background-color:#66B382;color:white;padding:5px;font-size:14px;text-align:justify;position:relative;margin:8px;margin-right:20px">
+            <div align="center" style="font-size:29px;font-weight:bolder;color:black;text-shadow: 0px 0px 2px rgba(255, 255, 255, 1);">Responsive Adaptive Design</div>
+            <br> Adaptive design allows you to create a mobile version and a full sized version of your page. This is for people who want full control of the look of their website on mobile devices and desktops.
+            <br>
+            <br> The Adaptive Responsive Design will also adjust the fit of the screen.
+            <br>
+            <br>
+            <div>Pros</div>
+            <ul>
+                <li>Custom design your mobile pages.</li>
+                <li>Full HTML layout options still available. </li>
+                <li>Does not change layout.</li>
+                <li>Looks exactly like you build it</li>
+            </ul>
+            <br>
+            <div>Cons</div>
+            <ul>
+                <li>You must build 2 individual layouts one mobile,&nbsp;one full size.</li>
+            </ul>
+        
+            <div align="center" style="position:absolute;bottom:20px;right:0px;left:0px;margin: auto">
+                <input type='checkbox' onclick="PlugNedit.ResetMargins('600')"> I use themes that contain Side Bars.
+                <br>
+                <input class="button" name="New Adaptive Page" onclick="PlugNedit.RE('ColoredCover').style.display='none';PlugNedit.CreateAdaptive();PlugNedit.RE('EntryPageSelection').style.display='none';PNETOOLS.SideBar('1');" style="height:20px;font-weight:bold;font-size:11px;color:white;width:200px;-webkit-border-radius:0px;border-radius:0px;padding:3px" type="button" value="New Adaptive Page"> </div>
+        </div>
+    </div>
+    
+      <!-- Image by url menu -->
+    <div id="UrlImage" class="Styleddailbox" style="visibility:hidden; position:fixed; background-color:white; top:100px; left:200px; width:500px; height:175px; z-index:10002 ;opacity:1;filter:alpha(opacity=100)">
+        <table style="width:600px;height:150px;padding:4px">
+            <tr>
+                <td style="text-align:left">
+                    <div class="Btext" style="text-align:left"> <span class="wp1">URL Of Image. Example: &nbsp;&nbsp;&nbsp;Http://mysite.com/image1.jpg</span>
+                        <br>
+                        <br>
+                        <input class="wp1" id="ImgurlInsert" maxlength="2000" onfocus="PNETOOLS.ONContextMenus();document.getElementById('ImgurlInsert').value=''" type="text" value="">Use CTRL V to paste.
+                        <br>
+                        <input class="wp1" name="Insert Image" onclick="PNETOOLS.PlaceImage( PlugNedit.RE( 'ImgurlInsert' ).value);PNETOOLS.ONContextMenus(false);PNETOOLS.StyleEditorObject( 'UrlImage','visibility','hidden' );" type="button" value="Insert Image">&nbsp;
+                        <input class="wp1" name="Cancel" onclick="document.getElementById('UrlImage').style.visibility='hidden';PNETOOLS.ONContextMenus(false)" type="button" value="Cancel"> </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+
+      <!-- Layer names dialog box located at bottom of screen-->
+    <div id="LayerNameDialogBox" class="Styleddailbox" style="visibility:hidden;position:fixed;bottom:0px;right:0px; background-color:white; min-width:800px; width:100%; height:65px; z-index:10002 ;opacity:1;filter:alpha(opacity=100)">
+        <div class="wordpress1B" style="text-align:left;font-family:Baumans;padding:5px" align="center"> &nbsp;&nbsp;&nbsp;Please Give This Item A Name.&nbsp;&nbsp; Example: Text Body &nbsp; &nbsp; &nbsp; &nbsp;<span id='PNElayervisibilityspan' style="display:none;font-size:11px">Adding Shortcodes: <input id='OverFlowVisible'  type="checkbox"/></span>
+            <table cellpadding="0" cellspacing="0" style="font-size:12px;width:98%;height:60px;padding:0px;text-align:center;margin:2px;vertical-align:text-top">
+                <tr>
+                    <td style="text-align:left;vertical-align:text-top;width:300px;height:60px;padding:4px">
+                        <div> Name:
+                            <input class="wp1" id="LayerNamesInput" maxlength="16" onfocus="document.getElementById('LayerNamesInput').value=''" type="text" value=""> &nbsp; <img src="assets/24x24/apply.png" style="cursor:pointer;" onClick="PNETOOLS.CONTROLLayers();document.getElementById('LayerNameDialogBox').style.visibility='hidden';document.getElementById('EditorCanvasCover').style.visibility='hidden'"> &nbsp;&nbsp;<img src="assets/24x24/erase.png" style="cursor:pointer;" onClick="PNETOOLS.CONTROLLayers();document.getElementById('LayerNameDialogBox').style.visibility='hidden';document.getElementById('EditorCanvasCover').style.visibility='hidden'"> 
+                       </div>
+                    </td>
+                    <td style="vertical-align:text-top;padding:0px"> <span id="DisplayStyleItems">
+               Duplicate Look Of Another Item: (Font, Text Color, Etc.):&nbsp;
+               <span id="OptionStylesSelect">
+               <span class="Gtext" id="LayerSelectStyle" onclick="PNETOOLS.LayerStyles()">Click To Load Layer Styles</span> </span>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+         <!-- Embed Source Menu--> 
+    <div id="InputEmbedMenu" class="Styleddailbox" style="padding: 14px; visibility: hidden;display:none; position: fixed; top: 50px; left: 0px; right: 0px; width: 500px; height: 450px; z-index: 100002; opacity: 1; margin: auto;">
+        <table style="width:100%;height:100%;text-align:center">
+            <TR>
+                <TD>
+                    <div style="text-align:center" class="BtextB">Input embedded Source
+                        <br/>
+                        <textarea id="EmbededSource" name="EmbededSource" style="width:400px;height:300px" onChange="PNETOOLS.CheckEmbed(this)"></textarea>
+                        <br/>
+                        <input type="button" onclick="PNETOOLS.SubmitEmbed(PlugNedit.RE( 'EmbededSource' ).value );PlugNedit.HideEditorMenus(PlugNedit.GetEditorObject.InputEmbedMenu());" name="Submit" Value="Submit Embeded Source" class="button">
+                        <input class="button" type="button" value="Cancel" onclick="PlugNedit.HideEditorMenus(PlugNedit.GetEditorObject.InputEmbedMenu());" name="Submit">
+                        <br>Control (Ctrl) + V to paste. </div>
+                </TD>
+            </TR>
+        </table>
+    </div>
+    
+     <!-- Graideint Menu --> 
+    <div id="NoEditupper6Grad" class="Styleddailbox" style="color: red; font-weight: bolder; font-size: 14px; visibility: hidden; text-align: center; position: fixed; width: 400px; top: 0px; left: 200px; height: 500px; overflow: hidden; z-index: 7777; opacity: 1; background-color: white;">
+        <table style="width:100%;height:100%;text-align:left;font-size:12px;font-weight:bold">
+            <TR>
+                <TD valign="top"> Example of correct use (Read Below).
+                    <br>
+                    <div style="width:99%;height:40px;color:white;background-color:blue" align="center">
+                        <br> Text Without Gradient Support. 
+                    </div>
+                    <br>
+                    <div style="width:99%;height:40px;background-color:blue;background:linear-gradient(green, blue);color:white" align="center">
+                        <br> Text With Gradient Support. 
+                    </div>
+                    <br>
+                    <div align="center">Select Layer To Edit Then Set Colors.</div>
+                    <table width='300px' style="padding:10px;color:black">
+                        <tr>
+                            <td align="right"> Background Color: </td>
+                            <td>
+                                <input id="BackgroundcolorGradh" onchange="PNETOOLS.StyleInlinediv('backgroundColor','#'+this.value)" type="hidden" value='1D4D5E'>
+                                <input style="border: 1px solid black" data-colorinput="true" class="color { pickerClosable:true,valueElement:'BackgroundcolorGradh'}" id="BackgroundcolorGrad" type="text" value="#000000"> <img alt="Set Background Transparent" onclick="PNETOOLS.StyleInlinediv('backgroundColor','transparent')" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" title="Set Background Transparent" src="assets/m2/32x32/Transparentbackground.png" style="padding-top:0px;height:20px;width:20px;cursor:pointer"> </td>
+                        </tr>
+                        <tr>
+                            <td align="right"> First Color: </td>
+                            <td>
+                                <input id="GradFirstColorh" onchange="PNETOOLS.SetGradient(PlugNedit.RE('GradFirstColorh').value,PlugNedit.RE('GradSecondColorh').value)" type="hidden" value='1D4D5E'>
+                                <input style="border: 1px solid black" data-colorinput="true" class="color { pickerClosable:true,valueElement:'GradFirstColorh'}" id="GradFirstColor" type="text" value="#000000"> <img alt="Set Background Transparent" onclick="PNETOOLS.SetGradient('transparent',PlugNedit.RE('GradSecondColor').value)" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" title="Set Background Transparent" src="assets/m2/32x32/Transparentbackground.png" style="padding-top:0px;height:20px;width:20px;cursor:pointer"> </td>
+                        </tr>
+                        <tr>
+                            <td align="right"> Second Color: </td>
+                            <td>
+                                <input id="GradSecondColorh" onchange="PNETOOLS.SetGradient(PlugNedit.RE('GradFirstColorh').value,PlugNedit.RE('GradSecondColorh').value)" type="hidden" value='1D4D5E'>
+                                <input style="border: 1px solid black" data-colorinput="true" class="color { pickerClosable:true,valueElement:'GradSecondColorh'}" id="GradSecondColor" type="text" value="#ffffff"> <img alt="Set Background Transparent" onclick="PNETOOLS.SetGradient(PlugNedit.RE('GradFirstColor').value,'transparent')" onmouseout="document.getElementById('ToolTip').style.visibility='Hidden'" title="Set Background Transparent" src="assets/m2/32x32/Transparentbackground.png" style="padding-top:0px;height:20px;width:20px;cursor:pointer"> </td>
+                        </tr>
+                        <tr>
+                            <td colspan='2'>
+                                <br>
+                                <br> Angle:
+                                <select id='pnegradangle' onchange="PNETOOLS.SetGradient(PlugNedit.RE('GradFirstColorh').value,PlugNedit.RE('GradSecondColorh').value)">
+                                    <option value="to right">horizontal</option>
+                                    <option value="to bottom" selected>vertical</option>
+                                    <option value="135deg">diagonal left</option>
+                                    <option value="45deg">diagonal right</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <div align="center">
+                        <input style="font-size:12px" type="button" onclick="PlugNedit.RE('NoEditupper6Grad').style.visibility='hidden'" name="Looks Good! Close Window." Value="Looks Good! Close Window." class="button2"> &nbsp;
+                        <input style="font-size:12px" type="button" onclick="PNETOOLS.StyleInlinediv('backgroundImage','');PNETOOLS.StyleInlinediv('backgroundColor',PlugNedit.RE('BackgroundcolorGrad'));PlugNedit.RE('NoEditupper6Grad').style.visibility='hidden'" name="" Value="Clear Gradient And Close Window." class="button2"> 
+                    </div>
+                    
+                    <div style="padding:15px;align:justify;font-size:10px"> Not all browsers support gradient backgrounds, and the user will see only the background color you choose. Make sure you choose a background color that users will still be able to see the text. You can set the background color first and after it looks fine without a gradient, then pick your gradient colors. Watch out for white text with a white background or black text on black background. 
+                    </div>
+                    
+                    <br>
+                    <div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background);" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);'></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(206,219,233,1) 0%,rgba(170,197,222,1) 17%,rgba(97,153,199,1) 50%,rgba(58,132,195,1) 51%,rgba(65,154,214,1) 59%,rgba(75,184,240,1) 71%,rgba(58,139,194,1) 84%,rgba(38,85,139,1) 100%);'></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(180,221,180,1) 0%,rgba(131,199,131,1) 17%,rgba(82,177,82,1) 33%,rgba(0,138,0,1) 67%,rgba(0,87,0,1) 83%,rgba(0,36,0,1) 100%); '></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); '></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(248,255,232,1) 0%,rgba(227,245,171,1) 33%,rgba(183,223,45,1) 100%);'></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(216,224,222,1) 0%,rgba(174,191,188,1) 22%,rgba(153,175,171,1) 33%,rgba(142,166,162,1) 50%,rgba(130,157,152,1) 67%,rgba(78,92,90,1) 82%,rgba(14,14,14,1) 100%);'></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(243,226,199,1) 0%,rgba(193,158,103,1) 50%,rgba(182,141,76,1) 51%,rgba(233,212,179,1) 100%);'></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left;background: linear-gradient(45deg, rgba(229,112,231,1) 0%,rgba(200,94,199,1) 47%,rgba(168,73,163,1) 100%);'></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left; background: linear-gradient(45deg, rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%); '></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left; background: linear-gradient(45deg, rgba(248,80,50,1) 0%,rgba(241,111,92,1) 50%,rgba(246,41,12,1) 51%,rgba(240,47,23,1) 71%,rgba(231,56,39,1) 100%); '></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left; background: linear-gradient(45deg, rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); '></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left; background: linear-gradient(45deg, rgba(243,197,189,1) 0%,rgba(232,108,87,1) 50%,rgba(234,40,3,1) 51%,rgba(255,102,0,1) 75%,rgba(199,34,0,1) 100%); '></div>
+                        <div onclick="PNETOOLS.StyleInlinediv('backgroundImage',this.style.background)" style='cursor:pointer; width:30px;height:30px;float:left; background: linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%);  '></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+     <!-- Graideint Menu --> 
+  
+    <div id="NudgeDisplay" style="background-color:white;color:red;font-weight:bolder;font-size:14px;visibility:visible;text-align:center;position:fixed;width:100px;top:0px;right:0px;height:18px;overflow:hidden;z-index:7777;opacity:1">
+        <div align="left" style="font-size:10px;font-weight:bold;padding:0px"> <span style="font-size:12px;font-weight:bolder;color:red;cursor:pointer" onclick="PlugNedit.RE('NudgeDisplay').style.height = '410px';PlugNedit.Nudgewin=true;">Quick Tool </span><img src="assets/Rclose.png" style="width:14px;height:14px;margin:0px;padding:0px;cursor:pointer" align="right" onClick="if (PlugNedit.Nudgewin==true){PlugNedit.RE('NudgeDisplay').style.height = '18px';PlugNedit.Nudgewin=false;}else{PlugNedit.RE('NudgeDisplay').style.height = '360px';PlugNedit.Nudgewin=true}">
+            <br>
+         
+            <div style="display:none;padding:0px">
+                <input type="radio" name="PNEMOVEITEMS" value="MS" checked> Move Selected
+                <br>
+                <br>
+                <input type="radio" name="PNEMOVEITEMS" value="MB"> Move All Below 
+            </div> 
+            
+            Select multiple layers to move by click and dragging over a area.
+            <br>
+            <br>
+            <input type="radio" name="PNEMOVEITEMSpeed" value="1">Move Fast
+            <br>
+            <input type="radio" name="PNEMOVEITEMSpeed" value="5" checked> Move Normal
+            <br>
+            <input type="radio" name="PNEMOVEITEMSpeed" value="400"> Move Slow
+            <br> 
+        </div>
+        
+        <BR>
+        <div align="center" style="font-size:11px;font-weight:bold"> <img id="movescreen" style="curser:pointer;cursor:pointer" src="assets/24x24/up.png" onMouseDown="PlugNedit.PNEMOVEITEM=true;PlugNedit.PNEMove('top','-',PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMSpeed')),PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMS')))" onMouseOut="PlugNedit.PNEMOVEITEM=false" onMouseUp="PlugNedit.PNEMOVEITEM=false">
+            <br>
+            <table style="padding:0px,margin:0px;border-spacing:0px">
+                <tr>
+                    <td> <img id="movescreen1" style="curser:pointer;cursor:pointer" src="assets/24x24/back.png" onMouseDown="PlugNedit.PNEMOVEITEM=true;PlugNedit.PNEMove('left','-',PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMSpeed')),PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMS')))" onMouseOut="PlugNedit.PNEMOVEITEM=false" onMouseUp="PlugNedit.PNEMOVEITEM=false">&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                    <td>
+                        <br> <img id="movescreen2" style="curser:pointer;cursor:pointer" src="assets/24x24/forward.png" onMouseDown="PlugNedit.PNEMOVEITEM=true;PlugNedit.PNEMove('left','+',PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMSpeed')),PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMS')))" onMouseOut="PlugNedit.PNEMOVEITEM=false" onMouseUp="PlugNedit.PNEMOVEITEM=false">
+                        <BR> </td>
+                </tr>
+            </table> <img id="movescreen3" style="curser:pointer;cursor:pointer" src="assets/24x24/down.png" onMouseDown="PlugNedit.PNEMOVEITEM=true;PlugNedit.PNEMove('top','+',PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMSpeed')),PlugNedit.Getrad(document.getElementsByName('PNEMOVEITEMS')))" onMouseOut="PlugNedit.PNEMOVEITEM=false" onMouseUp="PlugNedit.PNEMOVEITEM=false">
+            <hr> <img src="assets/m2/32x32/list.png" style="cursor:pointer;height:32px" onclick="PNETOOLS.NewHTMLLayer()" title="New Text Layer">&nbsp; <img src="assets/m2/32x32/newimage.png" style="cursor:pointer;height:32px" onclick="return;PlugNedit.RE('pneimageframe').style.display='';PlugNedit.RE('pneimageframe').style.top=PlugNedit.TempScrollTop+'px';if (PlugNedit.PNEgalleryloaded==0) {PlugNedit.RE('pneimageframe').src='assets/pnegallery.cfm?WordPressFolder=NoWordpressFolder';PlugNedit.PNEgalleryloaded=1;}" title="Insert Picture">
+            <hr> &nbsp;&nbsp; <img src="assets/picon/png/32x32/redo.png" onmousedown="PNETOOLS.UndoIt(1)" title="Redo" style="height:24px;width:24px;cursor:pointer">&nbsp;&nbsp;&nbsp; <img src="assets/picon/png/32x32/undo.png" onmousedown="PNETOOLS.UndoIt(-1)" title="Undo" style="height:24px;width:24px;cursor:pointer">
+         
+            <div style="padding-top:8px">
+            <div id="SnapDisplay" style="font-size:13px;font-weight:bold"> Snap:&nbsp;
+                    <input type="checkbox" checked name="PNESnap" style="vertical-align:middle" onChange="PlugNedit.PNESnap=this.checked"> 
+            </div>
+            </div>
+            
+            <div id='DisplayCanvasToggle' style="display:none">
+                
+                <div class='gradblue' id='CanvasFixedSelection' onclick="PlugNedit.SwitchCanvas('PNEfixedlayout')" style="width:98%;height:19px;font-size:13px;color:black;background-color:blue;font-weight:bolder;margin:1px;cursor:pointer">Edit Full
+                </div>
+                
+                <div class='gradred' id='CanvasMobileSelection' onclick="PlugNedit.SwitchCanvas('PNEmobilelayout')" style="width:98%;height:19px;font-size:13px;color:black;background-color:red;font-weight:bolder;margin:1px;cursor:pointer">Edit Mobile
+                </div>
+                
+            </div>
+            
+    </div>
+
+    <!-- Tooltip Menu --> 
+    <div id="ToolTip" style="visibility:Hidden;font-size:14px;border-color:Blue;border-width:1px;font-weight:bold; padding:3px; border-style:solid; position:absolute; background-color:#FFFF99; top:175px; left:10px; width:250px; height:40px; z-index:999999;opacity:1;filter:alpha(opacity=100)"> </div>
+    <!-- Upload image Menu --> 
+    <iframe id="PNEpimple" scrolling="no" src="blank.html" style="display:none;border:0px;padding:0px;margin:0px;z-index:13999;position:fixed;left:100px;top:100px;width:405px;height:300px;overflow:hidden"> </iframe>
+    <!-- Gallery Menu --> 
+    <iframe id="pneimageframe" src="blankImage.html" style="display:none;overflow:hidden;width:99%;background-color:white;position:fixed;min-width:1100px;height:90%;top:10px;left:10px;z-index:77777"></iframe>
+    <!-- Swatch Menu --> 
+    <iframe src="blankswat.html" scrolling="yes" class="Stylesubmenubox" id="SwatchMenu" style="display:none;background-color:white;color:red;font-weight:bolder;font-size:14px;visibility:visible;text-align:center;position:fixed;bottom:0;right:0;;min-width:600px;min-height:200px;width:100%;height:30%;float:bottom;overflow:hidden;z-index:7777;opacity:1"></iframe>
+    <!-- Debuger --> 
+    <div id="DebugContainer" style="display:none;postion:fixed;top:100px;right:0px;width:250px;height:100%;z-index:1,opacit:.6">
+        <div id="DebugDisplay" style="font-weight:normal;font-family:arial;background-color:white;font-size:11px;padding: 14px; position: fixed; top: 0px;  right: 0px; width: 230px; height: 100%; z-index: 1; opacity: 1; margin: auto;overflow:scroll;color:black;"><a href="http://plugnedit.com">Plug N Edit drag and drop html editor</a></div>
+      
+  
+    </div>
+    
+    <script type="text/javascript">
+PNEloadstatus('Flux')
+    </script>
+</body>
+
+</html>
