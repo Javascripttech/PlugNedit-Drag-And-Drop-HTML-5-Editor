@@ -1,0 +1,429 @@
+  input.color {
+  width: 8em;
+  font-size: 10px;
+  padding: 1px 0;
+  border: 1px solid black;
+  text-align: center;
+  cursor: pointer;
+  }
+  
+  .wordpress1 {
+  
+    font-family:Baumans;
+  font-size: 11px;
+  font-style: normal;
+  color:#21759B;
+  font-weight: bold;
+ }
+ 
+   .wordpress1B {
+  
+    font-family:Baumans;
+  font-size: 14px;
+  font-style: normal;
+  color:#21759B;
+  font-weight: bold;
+ }
+ 
+   .wp1 {
+  
+    font-family: Baumans;
+  font-size: 14px;
+  font-style: normal;
+  color:#21759B;
+  font-weight: bold;
+ }
+
+  .Stext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  color:black;
+  font-weight: normal;
+  color: #000;
+ 
+-webkit-user-select: text;
+-khtml-user-select: text;
+-moz-user-select: text;
+-o-user-select: text;
+user-select: text;
+-ms-user-select: text;
+ }
+  
+  
+
+
+  .SStext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  color:black;
+  font-weight: bold;
+  color: #000;
+  }
+  
+  
+  .SmallStext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  color:black;
+  color: #000;
+  }
+
+  .SStextblue {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  color:blue;
+  font-weight: bold;
+  }
+
+
+  .Rtext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  color:Red;
+  font-weight: bold;
+
+  }
+    .PublishY {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  color:#FFF70A;
+  font-weight: bold;
+
+  }
+  
+  
+  .RtextB {
+  font-family: Baumans;;
+  font-size: 13px;
+  font-style: normal;
+  color:Red;
+  font-weight: bold;
+
+  }
+  
+  .RtextL {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  color:Red;
+  font-weight: bold;
+
+  }
+  .Otext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  color:Orange;
+  font-weight: bold;
+
+  }
+
+  .Ptext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  color:Purple;
+  font-weight: bold;
+
+  }
+  .Btext {
+  font-family: Baumans;
+  font-size: 11px;
+  font-style: normal;
+  color:Black;
+  font-weight: bold;
+
+  }
+  
+    .BtextB {
+  font-family: Baumans;
+  font-size: 16px;
+  font-style: normal;
+  color:Black;
+  font-weight: bold;
+
+  }
+
+  }
+  .Bluetext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  color:Blue;
+  font-weight: bold;
+
+  }
+  .Gtext {
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  color:Green;
+  font-weight: bold;
+
+  }
+  .GtextB {
+  font-family:Baumans;
+  font-size: 12px;
+  font-style: normal;
+  color:Green;
+  font-weight: bold;
+
+  }
+  
+  A:visited
+  {color:black;}
+  A:Link
+  {color:black;}
+
+ .inputText {
+		width: 8em;
+		padding: 1px 0;
+		border: 1px solid black;
+		text-align: center;
+		cursor: pointer;
+	}
+
+  .inputText2 {
+  width: 8em;
+  padding: 1px 0;
+  border: 1px solid black;
+  }
+
+    .inputparams{
+    width: 12em;
+    padding: 1px 0;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    }
+
+
+
+.transparentChords {
+	width: 100%; 
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	-moz-opacity:0.8;
+	-khtml-opacity: 0.8;
+	opacity: 0.8;
+}
+
+
+
+
+
+
+body {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+    user-select: none;
+background-position:top center;
+background-color: #F5F5F5;
+background-color: #F5F5F5;
+background-repeat:no-repeat;
+height:20000px;
+margin:0px;
+padding:0px;
+} 
+
+.SetZb {
+z-index:3
+}  
+
+.SetZ {
+z-index:2
+}  
+
+.menu-top {
+font-weight: bold;
+line-height: 18px;
+min-width: 10em;
+padding: 5px 5px;
+border-width: 1px 0 1px;
+border-style: solid;
+font-size: 13px;
+color: #21759B;
+}  
+
+.selectoff{
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}  
+
+.selecton {
+
+}  
+
+
+a:link {
+color: #21759B;
+}
+
+input.button-primary,
+button.button-primary,
+a.button-primary,
+.button {color:white;
+background: #21759B;text-decoration:none;font-size:16px;font-weight:bolder;line-height:13px;padding:3px 8px;cursor:pointer;border-width:1px;border-style:solid;-webkit-border-radius:14px;border-radius:14px;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}
+
+.button2 {color:white;
+background: red;text-decoration:none;font-size:16px;font-weight:bolder;line-height:13px;padding:3px 8px;cursor:pointer;border-width:1px;border-style:solid;-webkit-border-radius:14px;border-radius:14px;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}
+
+
+.Stylesubmenubox {
+
+border: 3px solid #75C0A6;
+-webkit-box-shadow: 5px 5px 10px 5px rgba(0,0,0,0.75);
+-moz-box-shadow: 5px 5px 10px 5px rgba(0,0,0,0.75);
+box-shadow: 5px 5px 10px 5px rgba(0,0,0,0.75);
+}
+
+
+.gradboxent {
+background: rgb(243,197,189); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(243,197,189,1) 0%, rgba(232,108,87,1) 50%, rgba(234,40,3,1) 51%, rgba(255,102,0,1) 75%, rgba(199,34,0,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(243,197,189,1)), color-stop(50%,rgba(232,108,87,1)), color-stop(51%,rgba(234,40,3,1)), color-stop(75%,rgba(255,102,0,1)), color-stop(100%,rgba(199,34,0,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  rgba(243,197,189,1) 0%,rgba(232,108,87,1) 50%,rgba(234,40,3,1) 51%,rgba(255,102,0,1) 75%,rgba(199,34,0,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  rgba(243,197,189,1) 0%,rgba(232,108,87,1) 50%,rgba(234,40,3,1) 51%,rgba(255,102,0,1) 75%,rgba(199,34,0,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  rgba(243,197,189,1) 0%,rgba(232,108,87,1) 50%,rgba(234,40,3,1) 51%,rgba(255,102,0,1) 75%,rgba(199,34,0,1) 100%); /* IE10+ */
+background: linear-gradient(135deg,  rgba(243,197,189,1) 0%,rgba(232,108,87,1) 50%,rgba(234,40,3,1) 51%,rgba(255,102,0,1) 75%,rgba(199,34,0,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3c5bd', endColorstr='#c72200',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+
+
+.StyleHcover {
+background: rgb(43,136,217); /* Old browsers */
+background: -moz-linear-gradient(45deg,  rgba(43,136,217,1) 0%, rgba(57,91,150,1) 49%, rgba(59,103,158,1) 49%, rgba(32,124,202,1) 52%, rgba(208,220,229,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(43,136,217,1)), color-stop(49%,rgba(57,91,150,1)), color-stop(49%,rgba(59,103,158,1)), color-stop(52%,rgba(32,124,202,1)), color-stop(100%,rgba(208,220,229,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(45deg,  rgba(43,136,217,1) 0%,rgba(57,91,150,1) 49%,rgba(59,103,158,1) 49%,rgba(32,124,202,1) 52%,rgba(208,220,229,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(45deg,  rgba(43,136,217,1) 0%,rgba(57,91,150,1) 49%,rgba(59,103,158,1) 49%,rgba(32,124,202,1) 52%,rgba(208,220,229,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(45deg,  rgba(43,136,217,1) 0%,rgba(57,91,150,1) 49%,rgba(59,103,158,1) 49%,rgba(32,124,202,1) 52%,rgba(208,220,229,1) 100%); /* IE10+ */
+background: linear-gradient(45deg,  rgba(43,136,217,1) 0%,rgba(57,91,150,1) 49%,rgba(59,103,158,1) 49%,rgba(32,124,202,1) 52%,rgba(208,220,229,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b88d9', endColorstr='#d0dce5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+
+   .textbar {
+   color:black;
+   background-color:black; 
+   font-weight: bold;
+   font-family: arial;
+   }
+   .Btext2 {
+   color:black;
+   font-family: arial;
+   font-size: 11px;
+   font-style: normal;
+   font-weight: bold;
+   }
+   .styled-select select {
+   background: transparent;
+   width: 100px;
+   padding: 2px;
+   font-size: 11px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 18px;
+   font-weight: bolder;
+   }
+   .styled-select {
+   width: 100px;
+   height: 17px;
+   background: #DCDCDC;
+   border: 1px solid black;
+   border-radius: 5px;
+   }
+   .Bonding {
+   color: black;
+   width: 225px;
+   border-radius: 3px;
+   background: white;
+   border: 1px solid #2D8DED;
+   //1px solid rgb(255, 0, 214)
+   padding:1px;
+   -webkit-box-shadow: 1px 1px 2px rgba(245, 255, 255, 0.75);
+   -moz-box-shadow:    1px 1px 2px rgba(245, 255, 255, 0.75);
+   box-shadow:         1px 1px 2px rgba(245, 255, 255, 0.75);
+   }
+   .BondingT {
+   font-family: arial;
+   font-size: 11px;
+   font-style: normal;
+   color:black;
+   font-weight: bold;
+   text-shadow: 1px 1px 1px rgba(57, 59, 57, 1);
+   }
+   
+   
+      .TextShadow {
+   text-shadow: 1px 1px 1px rgb(0, 0, 0);
+   }
+
+   .BondingK {
+   font-family: arial;
+   font-size: 11px;
+   font-style: normal;
+   color:black;
+   font-weight: bold;
+   }
+   input.color {
+   width: 80px;
+   height: 16px;
+   font-size: 10px;
+   padding: 1px 0;
+   border: 1px solid black;
+   text-align: center;
+   cursor: pointer;
+   }
+  
+   .Styleddailbox {
+   border: 3px solid #75C0A6;
+   -webkit-box-shadow: 10px 10px 31px 5px rgba(0,0,0,0.75);
+   -moz-box-shadow: 10px 10px 31px 5px rgba(0,0,0,0.75);
+   box-shadow: 10px 10px 31px 5px rgba(0,0,0,0.75);
+   background-color:#B36697;
+  color:white;
+  font-family: arial;
+  font-size: 13px;
+  font-weight: normal;
+   }
+   
+  .Styleddailbox h1{
+
+  color:white;
+  font-family: arial;
+  font-size: 16px;
+  font-weight: bolder;
+   }
+   
+   .Stylemenubox {
+   border: 3px solid #75C0A6;
+   -webkit-box-shadow: 3px 3px 7px 3px rgba(0,0,0,0.75);
+   -moz-box-shadow:  3px 3px 7px 3px rgba(0,0,0,0.75);
+   box-shadow:  3px 3px 7px 3px rgba(0,0,0,0.75);
+   }
+   .Gradinlinemenu {
+   background: rgb(252,234,187); /* Old browsers */
+   background: -moz-linear-gradient(45deg,  rgba(252,234,187,1) 0%, rgba(252,205,77,1) 50%, rgba(248,181,0,1) 51%, rgba(251,223,147,1) 100%); /* FF3.6+ */
+   background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(252,234,187,1)), color-stop(50%,rgba(252,205,77,1)), color-stop(51%,rgba(248,181,0,1)), color-stop(100%,rgba(251,223,147,1))); /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(45deg,  rgba(252,234,187,1) 0%,rgba(252,205,77,1) 50%,rgba(248,181,0,1) 51%,rgba(251,223,147,1) 100%); /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(45deg,  rgba(252,234,187,1) 0%,rgba(252,205,77,1) 50%,rgba(248,181,0,1) 51%,rgba(251,223,147,1) 100%); /* Opera 11.10+ */
+   background: -ms-linear-gradient(45deg,  rgba(252,234,187,1) 0%,rgba(252,205,77,1) 50%,rgba(248,181,0,1) 51%,rgba(251,223,147,1) 100%); /* IE10+ */
+   background: linear-gradient(45deg,  rgba(252,234,187,1) 0%,rgba(252,205,77,1) 50%,rgba(248,181,0,1) 51%,rgba(251,223,147,1) 100%); /* W3C */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+   }
+
+ 
